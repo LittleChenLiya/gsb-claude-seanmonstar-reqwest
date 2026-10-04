@@ -378,6 +378,7 @@ if_hyper! {
     pub mod dns;
     mod proxy;
     pub mod redirect;
+    pub mod replay;
     pub mod retry;
     #[cfg(feature = "__tls")]
     pub mod tls;
