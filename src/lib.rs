@@ -291,9 +291,15 @@ if_hyper! {
 mod into_url;
 mod response;
 
+/// Explicit, opt-in helpers for merging a `304 Not Modified` validation
+/// response into a caller-owned cache entry.
+pub mod cache;
+
 pub use self::error::{Error, Result};
 pub use self::into_url::IntoUrl;
 pub use self::response::ResponseBuilderExt;
+
+pub use self::cache::{merge_not_modified, CachedResponse, MergeError, MergeResult};
 
 /// Shortcut method to quickly make a `GET` request.
 ///

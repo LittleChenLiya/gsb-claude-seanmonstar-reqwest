@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add an explicit, opt-in 304 cache-entry merge component (`reqwest::cache::merge_not_modified` / re-exported as `reqwest::merge_not_modified`). It updates the allowed end-to-end headers of a caller-owned `CachedResponse` from a `304 Not Modified` validation response while reusing the original body bytes unchanged. It rejects a wrong status, a `Content-Length` that does not match the cached body (the old entry is kept), `Connection`-nominated and standard hop-by-hop headers, and a changed or unprovable `Vary` identity (with independent `MissingVaryInfo` / `VaryIdentityMismatch` diagnostics). No automatic caching, revalidation, or retry is performed, and ordinary responses are not modified.
+
 ## v0.13.5
 
 - Add `Error::is_dns()` to identify errors caused by DNS resolution failures.
