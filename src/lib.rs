@@ -291,6 +291,8 @@ if_hyper! {
 mod into_url;
 mod response;
 
+pub mod cache;
+
 pub use self::error::{Error, Result};
 pub use self::into_url::IntoUrl;
 pub use self::response::ResponseBuilderExt;
