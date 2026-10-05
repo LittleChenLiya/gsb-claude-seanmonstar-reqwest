@@ -51,6 +51,35 @@ impl Response {
         }
     }
 
+    /// Split the response into its parts (including the boxed
+    /// [`ResponseBody`]) and URL.
+    #[cfg(feature = "receipts")]
+    pub(crate) fn into_parts_url(self) -> (http::response::Parts, ResponseBody, Url) {
+        let (parts, body) = self.res.into_parts();
+        (parts, body, *self.url)
+    }
+
+    /// Rebuild a `Response` from parts carrying a receipt-tracked body,
+    /// preserving status, headers, extensions and URL.
+    #[cfg(feature = "receipts")]
+    pub(crate) fn from_tracked_parts(
+        parts: http::response::Parts,
+        body: crate::receipt::TrackedBody,
+        url: Url,
+    ) -> Response {
+        use http_body_util::BodyExt;
+
+        let res = hyper::Response::from_parts(
+            parts,
+            body.map_err(|e| -> Box<dyn std::error::Error + Send + Sync> { Box::new(e) })
+                .boxed(),
+        );
+        Response {
+            res,
+            url: Box::new(url),
+        }
+    }
+
     /// Get the `StatusCode` of this `Response`.
     #[inline]
     pub fn status(&self) -> StatusCode {

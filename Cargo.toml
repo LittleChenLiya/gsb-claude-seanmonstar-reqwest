@@ -54,6 +54,11 @@ blocking = ["dep:futures-channel", "futures-channel?/sink", "dep:futures-util", 
 
 charset = ["dep:encoding_rs", "dep:mime"]
 
+# Explicit per-request receipts that distinguish building, waiting for
+# headers, consuming the body and a complete EOF. Does not change the
+# behaviour of the default `Client` API.
+receipts = []
+
 cookies = ["dep:cookie_crate", "dep:cookie_store"]
 
 gzip = ["tower-http/decompression-gzip"]
@@ -285,3 +290,13 @@ required-features = ["deflate", "stream"]
 name = "multipart"
 path = "tests/multipart.rs"
 required-features = ["multipart"]
+
+[[example]]
+name = "receipts"
+path = "examples/receipts.rs"
+required-features = ["receipts"]
+
+[[test]]
+name = "receipts"
+path = "tests/receipts.rs"
+required-features = ["receipts"]

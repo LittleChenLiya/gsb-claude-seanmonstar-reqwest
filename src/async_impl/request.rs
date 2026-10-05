@@ -41,6 +41,21 @@ pub struct RequestBuilder {
     request: crate::Result<Request>,
 }
 
+#[cfg(feature = "receipts")]
+impl RequestBuilder {
+    /// Get the URL of the request being built, even if building it has
+    /// already recorded an error.
+    pub(crate) fn receipt_url(&self) -> &Url {
+        match &self.request {
+            Ok(req) => req.url(),
+            Err(err) => match err.url() {
+                Some(url) => url,
+                None => crate::receipt::fallback_url(),
+            },
+        }
+    }
+}
+
 impl Request {
     /// Constructs a new request.
     #[inline]

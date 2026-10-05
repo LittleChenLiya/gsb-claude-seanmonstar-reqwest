@@ -1,3 +1,7 @@
+## Unreleased
+
+- Add an opt-in `receipts` feature with `RequestBuilder::send_with_receipt()`. It returns a `Receipt` that explicitly distinguishes the build, waiting-for-headers, body-consumption and complete-EOF phases. A returned `Response` no longer implies a finished body: a short/failed body is recorded as a body failure with the actual phase and delivered byte count, dropping a response before EOF is recorded as incomplete, and pre-header connection failures stay at the await-headers phase (DNS/TLS internals are not guessed). The original error cause and status are preserved and only the URL scheme/host category is retained (paths, queries and header values are never recorded). The default `Client` API is unchanged.
+
 ## v0.13.5
 
 - Add `Error::is_dns()` to identify errors caused by DNS resolution failures.
